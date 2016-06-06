@@ -5,7 +5,7 @@
 icnrg                                                           M. Mosko
 Internet-Draft                                                   C. Wood
 Intended status: Standards Track                                    PARC
-Expires: November 24, 2016                                  May 23, 2016
+Expires: December 7, 2016                                  June 05, 2016
 
 
                        Nomad Sessions with CCNxKE
@@ -43,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on November 24, 2016.
+   This Internet-Draft will expire on December 7, 2016.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Mosko & Wood            Expires November 24, 2016               [Page 1]
+Mosko & Wood            Expires December 7, 2016                [Page 1]
 
-Internet-Draft         Nomad Sessions with CCNxKE               May 2016
+Internet-Draft         Nomad Sessions with CCNxKE              June 2016
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -74,10 +74,8 @@ Table of Contents
    2.  Prefix Migration  . . . . . . . . . . . . . . . . . . . . . .   3
      2.1.  Examples  . . . . . . . . . . . . . . . . . . . . . . . .   4
    3.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
-   4.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   5
-     4.1.  Normative References  . . . . . . . . . . . . . . . . . .   5
-     4.2.  Informative References  . . . . . . . . . . . . . . . . .   5
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   6
+   4.  Normative References  . . . . . . . . . . . . . . . . . . . .   5
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   5
 
 1.  Introduction
 
@@ -105,17 +103,16 @@ Table of Contents
    producer of its prefix change retroactively to migrate the session
    information as needed.
 
-
-
-
-
-Mosko & Wood            Expires November 24, 2016               [Page 2]
-
-Internet-Draft         Nomad Sessions with CCNxKE               May 2016
-
-
    The remainder of this document describes the signaling protocol used
    to perform these prefix migrations and enable nomad sessions.
+
+
+
+
+Mosko & Wood            Expires December 7, 2016                [Page 2]
+
+Internet-Draft         Nomad Sessions with CCNxKE              June 2016
+
 
 2.  Prefix Migration
 
@@ -131,8 +128,9 @@ Internet-Draft         Nomad Sessions with CCNxKE               May 2016
    To generate the (MoveToken, MovePrefix, MoveTag), the migrating peer
    performs the following computations.
 
-   MoveTokenCT, MoveTokenTag = AEnc(K, H(H(client_migration_token)) + TS)
-   MoveToken = K_id +  MoveTokenCT +  MoveTag
+      MoveTokenCT, MoveTokenTag =
+           AEnc(K, H(H(client_migration_token)) + TS)
+      MoveToken = K_id +  MoveTokenCT +  MoveTag
 
    where K_id is the key identifier for the key K and + is
    concatenation.  Here, the client_migration_token value is the _source
@@ -161,17 +159,16 @@ Internet-Draft         Nomad Sessions with CCNxKE               May 2016
    ciphertext was tampered with), then the Interest is dropped.  3.
    Otherwise, the migrating peer computes H(Proof) and compares it to
    H(H(client_migration_token)) in the plaintext.  If these values are
-
-
-
-
-Mosko & Wood            Expires November 24, 2016               [Page 3]
-
-Internet-Draft         Nomad Sessions with CCNxKE               May 2016
-
-
    equal, then the migrating peer supplies a new Session ID to the
    stationary peer and also sends a key-update message to cycle the TS.
+
+
+
+
+Mosko & Wood            Expires December 7, 2016                [Page 3]
+
+Internet-Draft         Nomad Sessions with CCNxKE              June 2016
+
 
 2.1.  Examples
 
@@ -208,7 +205,7 @@ Internet-Draft         Nomad Sessions with CCNxKE               May 2016
       |  (ACK data response)                     |
       |<-----------------------------------------+   (content)
       |                                          |
-      | /prefixA, (MoveToken,MoveTag,Proof)      |
+      | /prefixB, (MoveToken,MoveTag,Proof)      |
       <------------------------------------------+   (interest)
       |                                          |
       |  (SessionID)                             |
@@ -221,66 +218,23 @@ Internet-Draft         Nomad Sessions with CCNxKE               May 2016
 
 
 
-Mosko & Wood            Expires November 24, 2016               [Page 4]
+
+
+
+Mosko & Wood            Expires December 7, 2016                [Page 4]
 
-Internet-Draft         Nomad Sessions with CCNxKE               May 2016
+Internet-Draft         Nomad Sessions with CCNxKE              June 2016
 
 
 3.  Security Considerations
 
    TODO
 
-4.  References
-
-4.1.  Normative References
-
-   [CCNXKE]   Mosko, M., Uzun, E., and C. Wood, "CCNx Key Exchange",
-              n.d., <TODO>.
-
-   [CCNxMessages]
-              Mosko, M. and I. Solis, "CCNx Messages in TLV Format",
-              January 2016, <https://tools.ietf.org/html/draft-irtf-
-              icnrg-ccnxmessages-01>.
-
-   [DTLS12]   Rescorla, E. and N. Modadugu, "Datagram Transport Layer
-              Security Version 1.2", January 2012,
-              <https://tools.ietf.org/html/rfc6347>.
+4.  Normative References
 
    [GCM]      Dworkin, M., "Recommendation for Block Cipher Modes of
               Operation: Galois/Counter Mode (GCM) and GMAC",
               NIST Special Publication 800-38D, November 2007.
-
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <http://www.rfc-editor.org/info/rfc2119>.
-
-   [TLS13]    Rescorla, E., "The Transport Layer Security (TLS) Protocol
-              Version 1.3", December 2015, <https://tools.ietf.org/html/
-              draft-ietf-tls-tls13-11>.
-
-   [TLVENCAP]
-              Mosko, M. and C. Wood, "CCNx Packet Encapsulation", n.d.,
-              <https://github.com/PARC/ccnx-tlvencap-rfc>.
-
-4.2.  Informative References
-
-   [HASHCHAIN]
-              L. Lamport, "Password Authentication with Insecure
-              Communication", ANSI Communications of the ACM 24.11, pp
-              770-772, November 1981.
-
-   [RFC5077]  Salowey, J., Zhou, H., Eronen, P., and H. Tschofenig,
-              "Transport Layer Security (TLS) Session Resumption without
-              Server-Side State", RFC 5077, DOI 10.17487/RFC5077,
-              January 2008, <http://www.rfc-editor.org/info/rfc5077>.
-
-
-
-Mosko & Wood            Expires November 24, 2016               [Page 5]
-
-Internet-Draft         Nomad Sessions with CCNxKE               May 2016
-
 
 Authors' Addresses
 
@@ -323,14 +277,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-Mosko & Wood            Expires November 24, 2016               [Page 6]
+Mosko & Wood            Expires December 7, 2016                [Page 5]

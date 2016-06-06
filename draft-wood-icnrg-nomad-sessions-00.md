@@ -34,26 +34,6 @@ author:
     email: christopher.wood@parc.com
 
 normative:
-  RFC2119:
-  TLS13:
-     title: "The Transport Layer Security (TLS) Protocol Version 1.3"
-     target: https://tools.ietf.org/html/draft-ietf-tls-tls13-11
-     author:
-       -
-         ins: E. Rescorla
-         org: RTFM, Inc.
-     date: 2015-12-28
-  DTLS12:
-    title: "Datagram Transport Layer Security Version 1.2"
-    target: https://tools.ietf.org/html/rfc6347
-    author:
-        -
-            ins: E. Rescorla
-            org: RTFM, Inc.
-        -
-            ins: N. Modadugu
-            org: Google, Inc.
-    date: 2012-1
   GCM:
         title: "Recommendation for Block Cipher Modes of Operation: Galois/Counter Mode (GCM) and GMAC"
         date: 2007-11
@@ -61,50 +41,6 @@ normative:
             ins: M. Dworkin
         seriesinfo:
             NIST: Special Publication 800-38D
-  CCNxMessages:
-    target: https://tools.ietf.org/html/draft-irtf-icnrg-ccnxmessages-01
-    title: "CCNx Messages in TLV Format"
-    author:
-        -
-            ins: M. Mosko
-            org: PARC, Inc.
-        -
-            ins: I. Solis
-            org: PARC, Inc.
-    date: 2016-1-11
-  TLVENCAP:
-    target: https://github.com/PARC/ccnx-tlvencap-rfc
-    title: CCNx Packet Encapsulation
-    author:
-        -
-            ins: M. Mosko
-            org: PARC, Inc.
-        -
-            ins: C. Wood
-            org: PARC, Inc.
-  CCNXKE:
-        target: TODO
-        title: CCNx Key Exchange
-        author:
-            -
-                ins: M. Mosko
-                org: PARC, Inc.
-            -
-                ins: E. Uzun
-                org: PARC, Inc.
-            -
-                ins: C. A. Wood
-                org: PARC, Inc.
-
-informative:
-  RFC5077: <!-- Transport Layer Security (TLS) Session Resumption without Server-Side State -->
-  HASHCHAIN:
-      title: "Password Authentication with Insecure Communication"
-      author:
-        org: L. Lamport
-      date: 1981-11
-      seriesinfo:
-        ANSI: Communications of the ACM 24.11, pp 770-772
 
 --- abstract
 
@@ -168,7 +104,8 @@ To generate the (MoveToken, MovePrefix, MoveTag), the migrating peer performs
 the following computations.
 
 ~~~
-   MoveTokenCT, MoveTokenTag = AEnc(K, H(H(client_migration_token)) + TS)
+   MoveTokenCT, MoveTokenTag =
+        AEnc(K, H(H(client_migration_token)) + TS)
    MoveToken = K_id +  MoveTokenCT +  MoveTag
 ~~~
 
@@ -239,7 +176,7 @@ Consumer (migrating)                      Producer (stationary)
    |  (ACK data response)                     |
    |<-----------------------------------------+   (content)
    |                                          |
-   | /prefixA, (MoveToken,MoveTag,Proof)      |
+   | /prefixB, (MoveToken,MoveTag,Proof)      |
    <------------------------------------------+   (interest)
    |                                          |
    |  (SessionID)                             |   
